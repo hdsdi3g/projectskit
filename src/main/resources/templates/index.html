@@ -1,0 +1,74 @@
+<!--/*
+ * This file is part of projectskit.
+ * Licencied under LGPL v3.
+ * Copyright (C) hdsdi3g for hd3g.tv 2020
+*/-->
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>About projects</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/style.css}" />
+</head>
+
+<body>
+    <table>
+        <caption>Last project status</caption>
+        <tr>
+            <th scope="col">Repository name</th>
+            <th scope="col">Open issues / bugs</th>
+            <th scope="col">Open PR</th>
+            <th scope="col">Branchs</th>
+            <th scope="col">Artifact</th>
+            <th scope="col">Last git tag</th>
+            <th scope="col">In central repo</th>
+            <th scope="col">Parent artifact</th>
+        </tr>
+        <tr th:each="repository: ${repositories}">
+            <td>
+                <a th:text="${repository.name}" th:href="${'https://github.com/' + repository.name}" />
+                <a th:text="(Upd)" th:href="@{'/redo/' + ${repository.id}}" />
+            </td>
+            <td>
+                <a th:text="${repository.openIssues}"
+                    th:href="${'https://github.com/' + repository.name + '/issues'}" />
+                /
+                <a th:text="${repository.openBugIssues}"
+                    th:href="${'https://github.com/' + repository.name + '/issues?q=is%3Aissue+is%3Aopen+label%3Abug'}" />
+            </td>
+            <td>
+                <a th:text="${repository.openPR}" th:href="${'https://github.com/' + repository.name + '/pulls'}" />
+            </td>
+            <td>
+                <a th:text="${repository.branch}" th:href="${'https://github.com/' + repository.name + '/branches'}" />
+            </td>
+            <td>
+                <a th:if="${repository.centralRepoPresence != null}"
+                    th:text="${repository.pomArtifact + ' ' + repository.pomVersion}"
+                    th:href="${'https://mvnrepository.com/artifact/' + repository.pomGroupId + '/' + repository.pomArtifactId + '/' + repository.pomVersion}" />
+                <span th:unless="${repository.centralRepoPresence}"
+                    th:text="${repository.pomArtifact + ' ' + repository.pomVersion}" />
+            </td>
+            <td>
+                <span th:if="${repository.lastTag != null && repository.lastTag == repository.pomVersion}"
+                    th:text="${'Tag published'}" />
+                <span th:if="${repository.lastTag == null}" th:text="${'Not tagged'}" />
+                <a th:if="${repository.lastTag != null && repository.lastTag != repository.pomVersion}"
+                    th:text="${repository.lastTag}"
+                    th:href="${'https://github.com/' + repository.name + '/commits/' + repository.defaultBranch}" />
+            </td>
+            <td>
+                <a th:if="${repository.centralRepoPresence != null}" th:text="Present"
+                    th:href="${repository.centralRepoPresence}" />
+                <span th:unless="${repository.centralRepoPresence}" th:text="Missing" />
+            </td>
+            <td>
+                <span th:if="${repository.pomParentArtifact != null}"
+                    th:text="${repository.pomParentArtifact + ' ' + repository.pomParentVersion}" />
+            </td>
+        </tr>
+    </table>
+</body>
+
+</html>

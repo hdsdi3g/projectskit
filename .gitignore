@@ -1,3 +1,6 @@
+.cache/
+lastState.yml
+
 # Spring conf
 config/application.yml
 config/log4j2.xml
