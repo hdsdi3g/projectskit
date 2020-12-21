@@ -40,6 +40,11 @@ public class RepositoryDto {
 	private Map<String, String> dependenciesWithVersion;
 	private String centralRepoPresence;
 
+	@Override
+	public String toString() {
+		return name + "[" + pomArtifact + ":" + pomVersion + "]";
+	}
+
 	@JsonIgnore
 	public String getKey() {
 		return RepositoriesDto.getKey(name);

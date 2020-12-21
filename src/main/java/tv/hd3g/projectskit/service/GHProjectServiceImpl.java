@@ -91,16 +91,7 @@ public class GHProjectServiceImpl implements GHProjectService {
 			repoDto.setDescription(ghRepo.getDescription());
 			repoDto.setHomepage(ghRepo.getHomepage());
 			repoDto.setId(ghRepo.getId());
-			repoDto.setLastTag(Stream.of(ghRepo.getRefs("tags"))
-			        .map(GHRef::getRef)
-			        .map(t -> t.replace("refs/tags/", ""))
-			        .sorted((l, r) -> {
-				        final var vL = new DefaultArtifactVersion(l);
-				        final var vR = new DefaultArtifactVersion(r);
-				        return vR.compareTo(vL);
-			        })
-			        .findFirst()
-			        .orElse(null));
+			setLastTag(repoDto, ghRepo);
 			repoDto.setBranch(ghRepo.getBranches().size());
 			repoDto.setDefaultBranch(ghRepo.getDefaultBranch());
 			repoDto.setLastUpdate(System.currentTimeMillis());
@@ -166,6 +157,25 @@ public class GHProjectServiceImpl implements GHProjectService {
 		} catch (final IOException e) {
 			throw new IORuntimeException(e);
 		}
+	}
+
+	private void setLastTag(final RepositoryDto repoDto, final GHRepository ghRepo) throws IOException {
+		try {
+			repoDto.setLastTag(Stream.of(ghRepo.getRefs("tags"))
+			        .map(GHRef::getRef)
+			        .map(t -> t.replace("refs/tags/", ""))
+			        .sorted(GHProjectServiceImpl::compareBestRecentVersion)
+			        .findFirst()
+			        .orElse(null));
+		} catch (final GHFileNotFoundException e) {
+			repoDto.setLastTag(null);
+		}
+	}
+
+	private static int compareBestRecentVersion(final String l, final String r) {
+		final var vL = new DefaultArtifactVersion(l);
+		final var vR = new DefaultArtifactVersion(r);
+		return vR.compareTo(vL);
 	}
 
 	private static final String toGroupArtifactName(final Model m, final Optional<Parent> oP) {

@@ -32,6 +32,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import tv.hd3g.projectskit.Config;
 import tv.hd3g.projectskit.dto.RepositoriesDto;
+import tv.hd3g.projectskit.service.CrossProjectsAnalysisService;
 import tv.hd3g.projectskit.service.GHProjectService;
 
 @Controller
@@ -42,6 +43,8 @@ public class Homepage {
 	@Autowired
 	private GHProjectService ghProjectService;
 	@Autowired
+	private CrossProjectsAnalysisService crossProjectsAnalysisService;
+	@Autowired
 	private Config config;
 	@Autowired
 	@Qualifier("yaml")
@@ -50,6 +53,7 @@ public class Homepage {
 	@GetMapping("/")
 	public String index(final Model model) {
 		model.addAttribute("repositories", reposDto.getRepositories().values());
+		model.addAttribute("projectWarns", crossProjectsAnalysisService.getDepsWithWarn());
 		return "index";
 	}
 

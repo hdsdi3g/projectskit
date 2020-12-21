@@ -69,6 +69,25 @@
             </td>
         </tr>
     </table>
+
+    <h3>Project dependency warns</h3>
+    <ul>
+        <li th:each="projectWarn: ${projectWarns}">
+            <a th:text="${projectWarn.reference.name}"
+                th:href="${'https://github.com/' + projectWarn.reference.name}" />
+            <a th:text="(Upd)" th:href="@{'/redo/' + ${projectWarn.reference.id}}" />
+            <ul>
+                <li th:each="dependencyWarn: ${projectWarn.dependenciesWarns}">
+                    <span th:text="${dependencyWarn}" />
+                </li>
+            </ul>
+            <div th:if="${projectWarn.parentDependencyWarn != null}">
+                <strong>Project parent could be updated: </strong>
+                <span th:text="${projectWarn.parentDependencyWarn}" />
+            </div>
+        </li>
+    </ul>
+
 </body>
 
 </html>
