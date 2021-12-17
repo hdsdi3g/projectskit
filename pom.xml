@@ -13,8 +13,8 @@
 
 	<parent>
 		<groupId>tv.hd3g.commons</groupId>
-		<artifactId>parent</artifactId>
-		<version>2.3.7.RELEASE-1</version>
+		<artifactId>app-web</artifactId>
+		<version>6.1.0</version>
 		<relativePath />
 	</parent>
 
@@ -48,18 +48,6 @@
 		</dependency>
 	</dependencies>
 
-	<organization>
-		<name>hd3g.tv</name>
-		<url>https://hd3g.tv</url>
-	</organization>
-	<developers>
-		<developer>
-			<name>hdsdi3g</name>
-			<email>admin@hd3g.tv</email>
-			<organization>hd3g.tv</organization>
-			<organizationUrl>https://hd3g.tv</organizationUrl>
-		</developer>
-	</developers>
 	<scm>
 		<connection>scm:git:https://github.com/hdsdi3g/projectskit.git</connection>
 		<developerConnection>scm:git:https://github.com/hdsdi3g/projectskit.git</developerConnection>
@@ -70,41 +58,5 @@
 		<url>https://github.com/hdsdi3g/projectskit/issues</url>
 		<system>GitHub</system>
 	</issueManagement>
-	<licenses>
-		<license>
-			<name>GNU Lesser General Public License, Version 3</name>
-			<url>https://www.gnu.org/licenses/lgpl.txt</url>
-			<distribution>repo</distribution>
-		</license>
-	</licenses>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-				<executions>
-					<execution>
-						<goals>
-							<goal>repackage</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<configuration>
-					<skip>true</skip>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-gpg-plugin</artifactId>
-				<configuration>
-					<skip>true</skip>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
 </project>

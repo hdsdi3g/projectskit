@@ -22,6 +22,7 @@ import static java.util.stream.Collectors.toUnmodifiableMap;
 import static org.kohsuke.github.GHIssueState.OPEN;
 
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -48,7 +49,6 @@ import org.springframework.stereotype.Service;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import tv.hd3g.commons.IORuntimeException;
 import tv.hd3g.projectskit.dto.RepositoryDto;
 
 @Service
@@ -74,7 +74,7 @@ public class GHProjectServiceImpl implements GHProjectService {
 			        .stream()
 			        .collect(toUnmodifiableMap(GHRepository::getFullName, r -> r));
 		} catch (final IOException e) {
-			throw new IORuntimeException(e);
+			throw new UncheckedIOException(e);
 		}
 	}
 
@@ -155,7 +155,7 @@ public class GHProjectServiceImpl implements GHProjectService {
 
 			return repoDto;
 		} catch (final IOException e) {
-			throw new IORuntimeException(e);
+			throw new UncheckedIOException(e);
 		}
 	}
 

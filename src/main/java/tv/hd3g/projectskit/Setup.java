@@ -17,6 +17,7 @@
 package tv.hd3g.projectskit;
 
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.util.LinkedHashMap;
 
 import org.apache.logging.log4j.LogManager;
@@ -37,7 +38,6 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator.Feature;
 
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
-import tv.hd3g.commons.IORuntimeException;
 import tv.hd3g.projectskit.dto.RepositoriesDto;
 import tv.hd3g.projectskit.dto.RepositoryDto;
 import tv.hd3g.projectskit.service.GHProjectService;
@@ -113,7 +113,7 @@ public class Setup {
 			 */
 			mapper.writeValue(config.getDbFile(), reposDto);
 		} catch (final IOException e) {
-			throw new IORuntimeException(e);
+			throw new UncheckedIOException(e);
 		}
 	}
 
